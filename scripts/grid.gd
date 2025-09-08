@@ -9,7 +9,6 @@ const LIGHT_GREEN = "light_green"
 const PINK = "pink"
 const YELLOW = "yellow"
 const ORANGE = "orange"
-# SPECIAL TYPE PIECES
 const COLUMN =  "column"
 const ROW =  "row"
 const ADJACENT = "adjacent"
@@ -28,39 +27,37 @@ var state
 
 # piece array
 var possible_pieces = [
-	preload("res://scenes/BluePieces/blue_piece.tscn"),
-	preload("res://scenes/greenPieces/green_piece.tscn"),
-	preload("res://scenes/lightGreenPieces/light_green_piece.tscn"),
-	preload("res://scenes/pinkPieces/pink_piece.tscn"),
-	#preload("res://scenes/yellowPieces/yellow_piece.tscn"),
-	#preload("res://scenes/orangePieces/orange_piece.tscn"),
+	preload("res://scenes/Azules/blue_piece.tscn"),
+	preload("res://scenes/Verdes/green_piece.tscn"),
+	preload("res://scenes/VerdeClaro/light_green_piece.tscn"),
+	preload("res://scenes/Rosas/pink_piece.tscn"),
 ]
 
 var row_pieces = {
-	BLUE: preload("res://scenes/BluePieces/blue_piece_row.tscn"),
-	GREEN: preload("res://scenes/greenPieces/green_piece_row.tscn"),
-	LIGHT_GREEN: preload("res://scenes/lightGreenPieces/light_green_piece_row.tscn"),
-	ORANGE: preload("res://scenes/orangePieces/orange_piece_row.tscn"),
-	PINK: preload("res://scenes/pinkPieces/pink_piece_row.tscn"),
-	YELLOW: preload("res://scenes/yellowPieces/yellow_piece_row.tscn")
+	BLUE: preload("res://scenes/Azules/blue_piece_row.tscn"),
+	GREEN: preload("res://scenes/Verdes/green_piece.tscn"),
+	LIGHT_GREEN: preload("res://scenes/VerdeClaro/light_green_piece.tscn"),
+	ORANGE: preload("res://scenes/Naranjas/orange_piece_row.tscn"),
+	PINK: preload("res://scenes/Rosas/pink_piece_row.tscn"),
+	YELLOW: preload("res://scenes/Amarillos/yellow_piece_row.tscn")
 }
 
 var column_pieces = {
-	BLUE: preload("res://scenes/BluePieces/blue_piece_column.tscn"),
-	GREEN: preload("res://scenes/greenPieces/green_piece_column.tscn"),
-	LIGHT_GREEN: preload("res://scenes/lightGreenPieces/light_green_piece_column.tscn"),
-	ORANGE: preload("res://scenes/orangePieces/orange_piece_column.tscn"),
-	PINK: preload("res://scenes/pinkPieces/pink_piece_column.tscn"),
-	YELLOW: preload("res://scenes/yellowPieces/yellow_piece_column.tscn")
+	BLUE: preload("res://scenes/Azules/blue_piece_column.tscn"),
+	GREEN: preload("res://scenes/Verdes/green_piece_column.tscn"),
+	LIGHT_GREEN: preload("res://scenes/VerdeClaro/light_green_piece_column.tscn"),
+	ORANGE: preload("res://scenes/Naranjas/orange_piece_column.tscn"),
+	PINK: preload("res://scenes/Rosas/pink_piece_column.tscn"),
+	YELLOW: preload("res://scenes/Amarillos/yellow_piece_column.tscn")
 }
 
 var adjacent_pieces = {
-	BLUE: preload("res://scenes/BluePieces/blue_piece_adjacent.tscn"),
-	GREEN: preload("res://scenes/greenPieces/green_piece_adjacent.tscn"),
-	LIGHT_GREEN: preload("res://scenes/lightGreenPieces/light_green_piece_adjacent.tscn"),
-	ORANGE: preload("res://scenes/orangePieces/orange_piece_adjacent.tscn"),
-	PINK: preload("res://scenes/pinkPieces/pink_piece_adjacent.tscn"),
-	YELLOW: preload("res://scenes/yellowPieces/yellow_piece_adjacent.tscn")
+	BLUE: preload("res://scenes/Azules/blue_piece_adjacent.tscn"),
+	GREEN: preload("res://scenes/Verdes/green_piece_adjacent.tscn"),
+	LIGHT_GREEN: preload("res://scenes/VerdeClaro/light_green_piece_adjacent.tscn"),
+	ORANGE: preload("res://scenes/Naranjas/orange_piece_adjacent.tscn"),
+	PINK: preload("res://scenes/Rosas/pink_piece_adjacent.tscn"),
+	YELLOW: preload("res://scenes/Amarillos/yellow_piece_adjacent.tscn")
 }
 
 var rainbow_piece = preload("res://scenes/rainbow_piece.tscn")
@@ -143,7 +140,6 @@ func match_at(i, j, color):
 		if all_pieces[i - 1][j] != null and all_pieces[i - 2][j] != null:
 			if all_pieces[i - 1][j].color == color and all_pieces[i - 2][j].color == color:
 				return true
-	# check down
 	if j> 1:
 		if all_pieces[i][j - 1] != null and all_pieces[i][j - 2] != null:
 			if all_pieces[i][j - 1].color == color and all_pieces[i][j - 2].color == color:
@@ -156,7 +152,6 @@ func touch_input():
 		first_touch = grid_pos
 		is_controlling = true
 		
-	# release button
 	if Input.is_action_just_released("ui_touch") and in_grid(grid_pos.x, grid_pos.y) and is_controlling:
 		is_controlling = false
 		final_touch = grid_pos
@@ -179,13 +174,11 @@ func swap_pieces(column, row, direction: Vector2):
 		clean_color(column + direction.x, row + direction.y, first_piece.color)
 		move_checked = true
 		
-	# swap
 	state = WAIT
 	store_info(first_piece, other_piece, Vector2(column, row), direction)
 	all_pieces[column][row] = other_piece
 	all_pieces[column + direction.x][row + direction.y] = first_piece
-	#first_piece.position = grid_to_pixel(column + direction.x, row + direction.y)
-	#other_piece.position = grid_to_pixel(column, row)
+	
 	first_piece.move(grid_to_pixel(column + direction.x, row + direction.y))
 	other_piece.move(grid_to_pixel(column, row))
 	
@@ -280,10 +273,8 @@ func refill_columns():
 			if all_pieces[i][j] == null:
 				# random number
 				var rand = randi_range(0, possible_pieces.size() - 1)
-				# instance 
 				var piece = possible_pieces[rand].instantiate()
 				var color
-				# repeat until no matches
 				var max_loops = 100
 				var loops = 0
 				while (match_at(i, j, piece.color) and loops < max_loops):
@@ -294,7 +285,6 @@ func refill_columns():
 				add_child(piece)
 				piece.position = grid_to_pixel(i, j - y_offset)
 				piece.move(grid_to_pixel(i, j))
-				# fill array with pieces
 				all_pieces[i][j] = piece
 				all_pieces[i][j].color = piece.color
 				
@@ -312,11 +302,9 @@ func check_after_refill():
 	move_checked = false
 
 func _on_destroy_timer_timeout():
-	#print("destroy")
 	destroy_matched()
 
 func _on_collapse_timer_timeout():
-	#print("collapse")
 	collapse_columns()
 
 func _on_refill_timer_timeout():
@@ -452,43 +440,31 @@ func find_matches():
 				
 				if is_t_shape(i, j):
 					replace_with_special_piece(i, j, current_color, ADJACENT)
-				# Check for horizontal matches
 				if i <= width - 5:
 					if is_match(i, j, Vector2(1, 0), 5):
 						replace_with_special_piece(i + 2, j, current_color, RAINBOW)
-						#continue
 					elif is_match(i, j, Vector2(1, 0), 4):
 						replace_with_special_piece(i + 1, j, current_color, ROW)
-						#continue
 				elif i <= width - 4:
 					if is_match(i, j, Vector2(1, 0), 4):
 						replace_with_special_piece(i + 1, j, current_color, ROW)
-						#continue
 				
-				# Check for vertical matches
 				if j <= height - 5:
 					if is_match(i, j, Vector2(0, 1), 5):
 						replace_with_special_piece(i, j + 2, current_color, RAINBOW)
-						#continue
 					elif is_match(i, j, Vector2(0, 1), 4):
 						replace_with_special_piece(i, j + 1, current_color, COLUMN)
-						#continue
 				elif j <= height - 4:
 					if is_match(i, j, Vector2(0, 1), 4):
 						replace_with_special_piece(i, j + 1, current_color, COLUMN)
-						#continue
-				 #Check for horizontal match of 3
 				if i > 0 and i < width - 1 and is_match(i, j, Vector2(1, 0), 3):
 					mark_pieces_for_removal(i, j, true)
-				## Check for vertical match of 3
 				if j > 0 and j < height - 1 and is_match(i, j, Vector2(0, 1), 3):
 					mark_pieces_for_removal(i, j, false)
 
 	get_parent().get_node("destroy_timer").start()
 
 func is_match(i, j, direction: Vector2, length: int) -> bool:
-	#if all_pieces[i][j].type == RAINBOW:
-		#return true
 	if all_pieces[i][j] == null:
 			return false
 	if all_pieces[i][j].color == null:
@@ -509,14 +485,12 @@ func is_match(i, j, direction: Vector2, length: int) -> bool:
 
 
 func is_t_shape(i, j) -> bool:
-	# Horizontal T shape
 	if is_match(i, j, Vector2(1, 0), 3) and (
 		(j > 0 and all_pieces[i + 1][j - 1] != null and all_pieces[i + 1][j - 1].color == all_pieces[i][j].color) or
 		(j < height - 1 and all_pieces[i + 1][j + 1] != null and all_pieces[i + 1][j + 1].color == all_pieces[i][j].color)
 	):
 		return true
 
-	# Vertical T shape
 	if is_match(i, j, Vector2(0, 1), 3) and (
 		(i > 0 and all_pieces[i - 1][j + 1] != null and all_pieces[i - 1][j + 1].color == all_pieces[i][j].color) or
 		(i < width - 1 and all_pieces[i + 1][j + 1] != null and all_pieces[i + 1][j + 1].color == all_pieces[i][j].color)
@@ -526,7 +500,6 @@ func is_t_shape(i, j) -> bool:
 	return false
 
 func is_l_shape(i, j) -> bool:
-	# L shape, starting horizontally
 	if is_match(i, j, Vector2(1, 0), 3):
 		if ((
 			j > 0 
@@ -539,7 +512,6 @@ func is_l_shape(i, j) -> bool:
 		):
 			return true
 
-	# L shape, starting vertically
 	if is_match(i, j, Vector2(0, 1), 3):
 		if ((
 			i > 0
@@ -555,11 +527,5 @@ func is_l_shape(i, j) -> bool:
 	return false
 
 func show_game_over_screen():
-	# Asegúrate de tener una instancia de la escena de Game Over
 	print('showed game over')
-	
-	# Puedes añadir la instancia de Game Over a la escena actual
-	#get_tree().root.add_child(game_over_instance)
-	
-	# Desactivar las interacciones del juego
 	get_tree().paused = true

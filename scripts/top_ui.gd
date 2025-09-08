@@ -7,7 +7,7 @@ extends TextureRect
 
 var current_score = 0
 var current_count = 3
-var time_limit = 60
+var time_limit =120
 var is_time_based = false
 var timer: Timer
 
@@ -19,14 +19,12 @@ func _ready():
 	grid.connect("score_updated", _on_score_updated)
 	grid.connect("move_counter", _on_move_counter)
 	
-	# Initialize and configure the Timer
 	timer = Timer.new()
-	timer.wait_time = 1  # Timer ticks every second
+	timer.wait_time = 1  
 	timer.one_shot = false
 	timer.connect("timeout", _on_timer_timeout)
 	add_child(timer)
 	
-	# Initialize CheckButton
 	check_button.connect("toggled", _on_check_button_toggled)
 	_on_check_button_toggled(check_button.pressed)
 	
@@ -55,12 +53,10 @@ func _on_check_button_toggled(pressed):
 	is_time_based = pressed
 	
 	if is_time_based:
-		# Switch to time-based mode
 		current_count = time_limit
 		counter_label.text = str(current_count)
 		timer.start()
 	else:
-		# Switch to move-based mode
 		timer.stop()
 		current_count = 2
 		counter_label.text = str(current_count)
