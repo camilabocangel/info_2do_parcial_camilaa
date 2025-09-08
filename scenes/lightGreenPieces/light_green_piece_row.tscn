@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://citqxjlshfe5j"]
+
+[ext_resource type="PackedScene" uid="uid://b83v444nmsr7j" path="res://scenes/lightGreenPieces/light_green_piece.tscn" id="1_6k2ae"]
+[ext_resource type="Texture2D" uid="uid://bb0xx0yg2qgom" path="res://assets/pieces/Light Green Row.png" id="2_6x2mi"]
+
+[node name="LightGreenPieceRow" instance=ExtResource("1_6k2ae")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_6x2mi")

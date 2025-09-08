@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddgd32jneu1uh"]
+
+[ext_resource type="PackedScene" uid="uid://dm0s7gtfwguog" path="res://scenes/yellowPieces/yellow_piece.tscn" id="1_322g6"]
+[ext_resource type="Texture2D" uid="uid://c4g6jq81jnxs2" path="res://assets/pieces/Yellow Adjacent.png" id="2_ttx4t"]
+
+[node name="YellowPieceAdjacent" instance=ExtResource("1_322g6")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_ttx4t")

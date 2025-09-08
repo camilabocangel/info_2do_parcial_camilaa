@@ -1,8 +1,10 @@
 extends Node2D
 
 @export var color: String
+@export var type = "normal"
 
 var matched = false
+
 
 func move(target):
 	var move_tween = create_tween()

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4o4e7d0tshsb"]
+
+[ext_resource type="PackedScene" uid="uid://b0obaufki3l2d" path="res://scenes/pinkPieces/pink_piece.tscn" id="1_tq8u4"]
+[ext_resource type="Texture2D" uid="uid://tqjdkn3v0yiu" path="res://assets/pieces/Pink Adjacent.png" id="2_w74ip"]
+
+[node name="PinkPieceAdjacent" instance=ExtResource("1_tq8u4")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_w74ip")

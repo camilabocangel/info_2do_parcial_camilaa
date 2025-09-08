@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctjafawqdxxoe"]
+
+[ext_resource type="PackedScene" uid="uid://c5vf1cyknafof" path="res://scenes/orangePieces/orange_piece.tscn" id="1_yd0mw"]
+[ext_resource type="Texture2D" uid="uid://eanefjlnypyc" path="res://assets/pieces/Orange Adjacent.png" id="2_l4r6j"]
+
+[node name="OrangePieceAdjacent" instance=ExtResource("1_yd0mw")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_l4r6j")
